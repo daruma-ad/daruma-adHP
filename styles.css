@@ -2532,6 +2532,11 @@ ul {
   align-items: stretch;
 }
 
+.lp-pricing-single {
+  max-width: 500px;
+  margin: 48px auto 0;
+}
+
 .lp-pricing-card {
   border-radius: var(--radius-lg);
   background: var(--gradient-card);
