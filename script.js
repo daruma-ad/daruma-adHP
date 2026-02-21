@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initCountUp();
   initFormSubmission();
+  initFaqAccordion();
 });
 
 /* ---------- Scroll Reveal ---------- */
@@ -176,5 +177,33 @@ function initFormSubmission() {
         submitBtn.style.background = '';
       }, 3000);
     }
+  });
+}
+
+/* ---------- FAQ Accordion ---------- */
+function initFaqAccordion() {
+  const faqItems = document.querySelectorAll('.lp-faq-item');
+  if (!faqItems.length) return;
+
+  faqItems.forEach((item) => {
+    const question = item.querySelector('.lp-faq-question');
+    if (!question) return;
+
+    question.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+
+      // Close all items
+      faqItems.forEach((i) => {
+        i.classList.remove('active');
+        const btn = i.querySelector('.lp-faq-question');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+
+      // Open clicked item (if it wasn't already open)
+      if (!isActive) {
+        item.classList.add('active');
+        question.setAttribute('aria-expanded', 'true');
+      }
+    });
   });
 }
