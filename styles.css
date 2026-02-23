@@ -2980,4 +2980,100 @@ ul {
     justify-content: center;
     text-align: center;
   }
+
+  /*----------------------------------------*/
+  /* Museum Banner Section
+/*----------------------------------------*/
+  .museum-banner {
+    padding: 80px 0;
+    background: var(--bg-secondary);
+  }
+
+  .museum-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px;
+    background: var(--gradient-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-glow-cyan);
+  }
+
+  .museum-banner-inner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: 0;
+  }
+
+  .museum-banner-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+
+  .museum-banner-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .museum-banner-content p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .museum-banner-visual {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    margin-left: 40px;
+  }
+
+  .museum-mockup-icon {
+    font-size: 120px;
+    line-height: 1;
+    filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @media (max-width: 1024px) {
+    .museum-banner-inner {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .museum-banner-visual {
+      margin-left: 0;
+      margin-bottom: 30px;
+    }
+
+    .museum-mockup-icon {
+      font-size: 100px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .museum-banner {
+      padding: 60px 0;
+    }
+
+    .museum-banner-inner {
+      padding: 30px 20px;
+    }
+
+    .museum-banner-content h2 {
+      font-size: 2rem;
+    }
+  }
 }

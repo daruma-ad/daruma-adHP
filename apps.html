@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリミュージアム | daruma-ad</title>
+    <meta name="description" content="実際に触って体験できる、daruma-adのWebアプリ（PWA）ショーケースです。">
+    <meta property="og:title" content="アプリミュージアム | daruma-ad">
+    <meta property="og:description" content="実際に触って体験できる、daruma-adのWebアプリ（PWA）ショーケースです。">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="images/daruma-logo2.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Mockup Specific Styles */
+        .app-showcase-section {
+            padding: var(--section-padding);
+            background: var(--bg-secondary);
+        }
+
+        .app-card {
+            margin-bottom: 80px;
+        }
+
+        .app-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .app-card-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 48px;
+            border-radius: var(--radius-xl);
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+        }
+
+        .app-card-inner:hover {
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .app-card:nth-child(even) .app-card-inner {
+            direction: rtl;
+        }
+
+        .app-card:nth-child(even) .app-card-inner>* {
+            direction: ltr;
+        }
+
+        /* Smartphone Mockup */
+        .mockup-container {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .smartphone-mockup {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            border-radius: 40px;
+            background: #111;
+            border: 12px solid #222;
+            box-shadow: 0 0 0 2px #333, var(--shadow-lg), 0 20px 40px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .smartphone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            z-index: 10;
+        }
+
+        .mockup-screen {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-screen img,
+        .mockup-screen iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+
+        .mockup-instruction {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* App Info */
+        .app-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .app-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .app-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            background: rgba(224, 64, 251, 0.1);
+            border: 1px solid rgba(224, 64, 251, 0.2);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-magenta);
+        }
+
+        .app-info h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .app-info p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .app-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .app-highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .app-highlight-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--accent-cyan);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .app-highlight-text {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            padding-top: 4px;
+        }
+
+        /* Actions Area */
+        .app-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .qr-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #fff;
+            border-radius: var(--radius-sm);
+        }
+
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background: #000;
+            /* Placeholder for QR code */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.7rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .qr-label {
+            font-size: 0.75rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .try-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--gradient-primary);
+            color: var(--bg-primary);
+            border: none;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .try-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        @media (max-width: 1024px) {
+            .app-card-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 32px 24px;
+            }
+
+            .app-card:nth-child(even) .app-card-inner {
+                direction: ltr;
+                /* Reset RTL on mobile */
+            }
+
+            .mockup-container {
+                order: -1;
+            }
+
+            .app-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .qr-box {
+                display: none;
+                /* Hide QR on mobile since they are already on a phone */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .smartphone-mockup {
+                width: 260px;
+                height: 520px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== Header ========== -->
+    <header class="header scrolled" id="top">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/daruma-logo2.png" alt="daruma-ad" class="logo-icon">
+                <div class="logo-text">daruma<span>-ad</span></div>
+            </a>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html#services">サービス</a>
+                <a href="works.html">制作事例</a>
+                <a href="lp-app.html">LP＋アプリ</a>
+                <a href="apps.html" class="nav-active">アプリミュージアム</a>
+                <a href="index.html#reasons">選ばれる理由</a>
+                <a href="index.html#about">会社概要</a>
+                <a href="index.html#contact">お問い合わせ</a>
+                <a href="index.html#contact" class="btn-cta-nav">無料相談</a>
+            </nav>
+
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ========== Page Hero ========== -->
+    <section class="page-hero">
+        <div class="page-hero-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="container">
+            <span class="section-label">Apps Showcase</span>
+            <h1 class="page-hero-title">アプリ<span class="gradient-text">ミュージアム</span></h1>
+            <p class="page-hero-subtitle">
+                実際に触って体験できる、<br>
+                daruma-adのWebアプリ（PWA）ショーケースです。
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== Apps Portfolio Grid ========== -->
+    <section class="app-showcase-section">
+        <div class="container">
+
+            <!-- App 1: Lottery App -->
+            <div class="app-card reveal">
+                <div class="app-card-inner">
+                    <div class="mockup-container">
+                        <div class="smartphone-mockup">
+                            <div class="smartphone-notch"></div>
+                            <div class="mockup-screen">
+                                <iframe src="https://daruma-ad.github.io/darumaya_fukubiki/"
+                                    title="ルーレット抽選アプリ"></iframe>
+                            </div>
+                        </div>
+                        <div class="mockup-instruction">インタラクティブ・デモ</div>
+                    </div>
+                    <div class="app-info">
+                        <div class="app-meta">
+                            <span class="app-category">📱 店舗集客ツール</span>
+                            <div class="tech-tags">
+                                <span class="tech-tag">HTML/JS</span>
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">アニメーション</span>
+                            </div>
+                        </div>
+                        <h3>イベント用 ルーレット抽選アプリ</h3>
+                        <p>店舗のイベントやキャンペーンで活躍する抽選アプリ。物理的な抽選機を使わず、お客様自身のスマホや店頭のタブレットでリッチなアニメーションと共に抽選を楽しめます。当落確率の設定も管理画面から柔軟に変更可能です。
+                        </p>
+
+                        <div class="app-highlights">
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">🎯</div>
+                                <div class="app-highlight-text">結果表示中のスピンロック機能による誤操作防止</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">✨</div>
+                                <div class="app-highlight-text">ワクワク感を演出する滑らかなアニメーション</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">⚙️</div>
+                                <div class="app-highlight-text">カスタマイズ可能な確率・景品設定</div>
+                            </div>
+                        </div>
+
+                        <div class="app-actions">
+                            <a href="https://daruma-ad.github.io/darumaya_fukubiki/" class="try-btn" target="_blank"
+                                rel="noopener">デモアプリを試す →</a>
+                            <div class="qr-box">
+                                <div class="qr-code"
+                                    style="background:var(--bg-primary);border:1px solid var(--border-subtle);color:var(--text-secondary);">
+                                    QR<br>Code</div>
+                                <span class="qr-label">スマホで開く</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 2: Name-Remembering App -->
+            <div class="app-card reveal">
+                <div class="app-card-inner">
+                    <div class="mockup-container">
+                        <div class="smartphone-mockup">
+                            <div class="smartphone-notch"></div>
+                            <div class="mockup-screen">
+                                <iframe src="https://daruma-ad.github.io/memory_sync/" title="顔と名前 記憶アプリ"></iframe>
+                            </div>
+                        </div>
+                        <div class="mockup-instruction">インタラクティブ・デモ</div>
+                    </div>
+                    <div class="app-info">
+                        <div class="app-meta">
+                            <span class="app-category">🛠 業務効率化ツール</span>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">データベース設計</span>
+                                <span class="tech-tag">PWA</span>
+                            </div>
+                        </div>
+                        <h3>顔と名前 記憶支援アプリ</h3>
+                        <p>お客様や取引先の顔・名前・特徴を簡単にタグ付けして記録・検索できる名簿管理アプリ。Firebaseをバックエンドに採用し、複数デバイス間でリアルタイムにデータ同期が可能です。営業担当者や接客業の方の生産性向上を支援します。
+                        </p>
+
+                        <div class="app-highlights">
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">🏷️</div>
+                                <div class="app-highlight-text">特徴を直感的に付与できるタグ付けシステム</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">🔍</div>
+                                <div class="app-highlight-text">タグによる高速なフィルタリング・検索機能</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">☁️</div>
+                                <div class="app-highlight-text">Firebaseを活用したセキュアなデータ管理</div>
+                            </div>
+                        </div>
+
+                        <div class="app-actions">
+                            <a href="https://daruma-ad.github.io/memory_sync/" class="try-btn" target="_blank"
+                                rel="noopener">デモアプリを試す →</a>
+                            <div class="qr-box">
+                                <div class="qr-code"
+                                    style="background:var(--bg-primary);border:1px solid var(--border-subtle);color:var(--text-secondary);">
+                                    QR<br>Code</div>
+                                <span class="qr-label">スマホで試す</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 3: Points App -->
+            <div class="app-card reveal">
+                <div class="app-card-inner">
+                    <div class="mockup-container">
+                        <div class="smartphone-mockup">
+                            <div class="smartphone-notch"></div>
+                            <div class="mockup-screen">
+                                <iframe src="https://darumaya-point.web.app/" title="店舗ポイント アプリ"></iframe>
+                            </div>
+                        </div>
+                        <div class="mockup-instruction">インタラクティブ・デモ</div>
+                    </div>
+                    <div class="app-info">
+                        <div class="app-meta">
+                            <span class="app-category">🏪 店舗向けシステム</span>
+                            <div class="tech-tags">
+                                <span class="tech-tag">GPS連携</span>
+                                <span class="tech-tag">QRコード</span>
+                                <span class="tech-tag">Firebase</span>
+                            </div>
+                        </div>
+                        <h3>来店ポイント・GPS認証アプリ</h3>
+                        <p>独自のポイントカードシステムをスマホアプリ化。お客様はQRコードを読み取るだけでポイントを獲得できます。不正防止のためのGPS位置情報チェック機能を実装し、店舗内でのみポイントが付与される安全なシステムを構築しました。
+                        </p>
+
+                        <div class="app-highlights">
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">📍</div>
+                                <div class="app-highlight-text">GPSによる来店の厳密な判定と不正防止</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">📷</div>
+                                <div class="app-highlight-text">スマホカメラを利用したQR素早いコードスキャン</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">📈</div>
+                                <div class="app-highlight-text">リアルタイムなポイント残高の同期</div>
+                            </div>
+                        </div>
+
+                        <div class="app-actions">
+                            <a href="https://darumaya-point.web.app/" class="try-btn" target="_blank"
+                                rel="noopener">デモアプリを試す →</a>
+                            <div class="qr-box">
+                                <div class="qr-code"
+                                    style="background:var(--bg-primary);border:1px solid var(--border-subtle);color:var(--text-secondary);">
+                                    QR<br>Code</div>
+                                <span class="qr-label">スマホで試す</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App 4: Homemo App -->
+            <div class="app-card reveal">
+                <div class="app-card-inner">
+                    <div class="mockup-container">
+                        <div class="smartphone-mockup">
+                            <div class="smartphone-notch"></div>
+                            <div class="mockup-screen">
+                                <iframe src="https://daruma-ad.github.io/homemo/" title="褒めてくれるメモアプリ"></iframe>
+                            </div>
+                        </div>
+                        <div class="mockup-instruction">インタラクティブ・デモ</div>
+                    </div>
+                    <div class="app-info">
+                        <div class="app-meta">
+                            <span class="app-category">📝 モチベーション支援ツール</span>
+                            <div class="tech-tags">
+                                <span class="tech-tag">Webアプリ</span>
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">UI/UXデザイン</span>
+                            </div>
+                        </div>
+                        <h3>褒めてくれるメモアプリ</h3>
+                        <p>頑張る人を応援する、新感覚のメモアプリ。日常のちょっとしたメモを残すだけで、画面いっぱいの演出と共にあなたを全力で褒めてくれます。日々のモチベーション維持や自己肯定感の向上をサポートし、「また使いたい」と思わせるポジティブなUX設計を取り入れています。
+                        </p>
+
+                        <div class="app-highlights">
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">💬</div>
+                                <div class="app-highlight-text">達成感を引き出す、多彩な「褒め」演出</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">🎨</div>
+                                <div class="app-highlight-text">気分が上がるポップで温かみのあるデザイン</div>
+                            </div>
+                            <div class="app-highlight-item">
+                                <div class="app-highlight-icon">📱</div>
+                                <div class="app-highlight-text">インストール不要でサクサク手軽に使える設計</div>
+                            </div>
+                        </div>
+
+                        <div class="app-actions">
+                            <a href="https://daruma-ad.github.io/homemo/" class="try-btn" target="_blank"
+                                rel="noopener">デモアプリを試す →</a>
+                            <div class="qr-box">
+                                <div class="qr-code"
+                                    style="background:var(--bg-primary);border:1px solid var(--border-subtle);color:var(--text-secondary);">
+                                    QR<br>Code</div>
+                                <span class="qr-label">スマホで試す</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== CTA Section ========== -->
+    <section class="works-cta">
+        <div class="container">
+            <div class="cta-card reveal">
+                <h2>あなたのビジネス専用の<br><span class="gradient-text">アプリを作りませんか？</span></h2>
+                <p>「こんな機能が欲しい」「業務を効率化したい」といったご要望をお聞きし、最適なアプリ開発プランをご提案します。</p>
+                <div class="cta-buttons">
+                    <a href="index.html#contact" class="btn-primary">無料相談する →</a>
+                    <a href="https://lin.ee/zPFbRwW" class="btn-line" target="_blank" rel="noopener">💬 LINEで相談する</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== Footer ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/daruma-logo2.png" alt="daruma-ad" class="logo-icon">
+                        <div class="logo-text">daruma<span>-ad</span></div>
+                    </a>
+                    <p>AIの力で、あなたの想いをカタチに。<br>AIテクノロジーと和の心を融合したクリエイティブサービス。</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>サービス</h4>
+                    <ul>
+                        <li><a href="https://daruma-ad.github.io/AI_kimono/" target="_blank">AI画像生成</a></li>
+                        <li><a href="apps.html">アプリミュージアム</a></li>
+                        <li><a href="works.html">ホームページ制作</a></li>
+                        <li><a href="https://daruma-ad.github.io/AI_kimono/videos.html" target="_blank">動画制作</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>サイトマップ</h4>
+                    <ul>
+                        <li><a href="index.html">ホーム</a></li>
+                        <li><a href="index.html#services">サービス</a></li>
+                        <li><a href="works.html">制作事例</a></li>
+                        <li><a href="lp-app.html">LP＋アプリ</a></li>
+                        <li><a href="apps.html">アプリミュージアム</a></li>
+                        <li><a href="index.html#reasons">選ばれる理由</a></li>
+                        <li><a href="index.html#about">会社概要</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>お問い合わせ</h4>
+                    <ul>
+                        <li><a href="mailto:netkimono@gmail.com">netkimono@gmail.com</a></li>
+                        <li><a href="https://lin.ee/zPFbRwW" target="_blank">LINEで相談</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2026 daruma-ad All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
