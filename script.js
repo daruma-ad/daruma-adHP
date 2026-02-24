@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCountUp();
   initFormSubmission();
   initFaqAccordion();
+  initWorksTabs();
 });
 
 /* ---------- Scroll Reveal ---------- */
@@ -204,6 +205,51 @@ function initFaqAccordion() {
         item.classList.add('active');
         question.setAttribute('aria-expanded', 'true');
       }
+    });
+  });
+}
+
+/* ---------- Works Tabs (Index Page) ---------- */
+function initWorksTabs() {
+  const tabBtns = document.querySelectorAll('.works-tab-btn');
+  const workItems = document.querySelectorAll('.work-item');
+
+  if (!tabBtns.length || !workItems.length) return;
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all buttons
+      tabBtns.forEach((b) => b.classList.remove('active'));
+      // Add active class to clicked button
+      btn.classList.add('active');
+
+      const filterValue = btn.getAttribute('data-filter');
+
+      // Filter work items
+      workItems.forEach((item) => {
+        const itemCategory = item.getAttribute('data-category');
+
+        if (filterValue === 'all' || itemCategory === filterValue) {
+          // Show item
+          item.classList.remove('hide');
+          // Add a tiny delay for the re-layout animation
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'scale(1)';
+          }, 50);
+        } else {
+          // Hide item
+          item.style.opacity = '0';
+          item.style.transform = 'scale(0.8)';
+
+          // Wait for transition before display:none
+          setTimeout(() => {
+            if (!item.style.opacity || item.style.opacity === '0') {
+              item.classList.add('hide');
+            }
+          }, 300); // matches CSS transition duration
+        }
+      });
     });
   });
 }
