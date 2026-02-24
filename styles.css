@@ -3213,12 +3213,16 @@ ul {
     z-index: 1;
     flex-shrink: 0;
     margin-left: 40px;
+    width: 45%;
+    max-width: 450px;
   }
 
-  .museum-mockup-icon {
-    font-size: 120px;
-    line-height: 1;
-    filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+  .museum-mockup-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-glow-cyan);
+    transform: perspective(1000px) rotateY(-5deg);
     animation: float 6s ease-in-out infinite;
   }
 
