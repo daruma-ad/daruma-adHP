@@ -3257,3 +3257,291 @@ ul {
     }
   }
 }
+
+/* ===========================================================
+   AI Ninja Mascot in Hero
+   =========================================================== */
+.hero-ninja-mascot {
+  position: absolute;
+  bottom: -20px;
+  right: -30px;
+  width: 180px;
+  height: 180px;
+  z-index: 2;
+  animation: ninja-float 4s ease-in-out infinite;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+}
+
+.ninja-mascot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+@keyframes ninja-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@media (max-width: 768px) {
+  .hero-ninja-mascot {
+    width: 100px;
+    height: 100px;
+    bottom: -10px;
+    right: -10px;
+  }
+}
+
+/* ===========================================================
+   AI Kimono Studio Highlight Section
+   =========================================================== */
+.kimono-highlight {
+  padding: 100px 0;
+  background: linear-gradient(180deg, #fff5f7 0%, #fce7f3 50%, #fff0f3 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.kimono-highlight::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.kimono-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.kimono-label {
+  color: #f43f5e !important;
+  background: rgba(244, 63, 94, 0.08) !important;
+  border-color: rgba(244, 63, 94, 0.2) !important;
+}
+
+.kimono-title {
+  color: #1a1a2e !important;
+}
+
+.kimono-accent {
+  background: linear-gradient(135deg, #f43f5e, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.kimono-subtitle {
+  color: #6b7280 !important;
+}
+
+.kimono-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.kimono-before-after {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+}
+
+.kimono-image-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  max-width: 240px;
+}
+
+.kimono-image-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+
+.kimono-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 14px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+.kimono-badge-after {
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+}
+
+.kimono-arrow {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f43f5e;
+  flex-shrink: 0;
+}
+
+.kimono-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.kimono-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.kimono-feature-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.kimono-feature-item h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.kimono-feature-item p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.kimono-pricing-preview {
+  margin-bottom: 28px;
+}
+
+.kimono-price-tag {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.06), rgba(168, 85, 247, 0.06));
+  border: 1px solid rgba(244, 63, 94, 0.15);
+}
+
+.kimono-price-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.kimono-price-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f43f5e;
+}
+
+.kimono-price-note {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.kimono-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-kimono-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
+}
+
+.btn-kimono-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.4);
+}
+
+.btn-kimono-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  background: rgba(244, 63, 94, 0.06);
+  color: #f43f5e;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-kimono-secondary:hover {
+  background: rgba(244, 63, 94, 0.12);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .kimono-highlight {
+    padding: 60px 0;
+  }
+
+  .kimono-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .kimono-before-after {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .kimono-image-card {
+    max-width: 100%;
+  }
+
+  .kimono-image-card img {
+    height: 200px;
+  }
+
+  .kimono-arrow {
+    transform: rotate(90deg);
+  }
+
+  .kimono-cta {
+    flex-direction: column;
+  }
+
+  .btn-kimono-primary,
+  .btn-kimono-secondary {
+    justify-content: center;
+  }
+}

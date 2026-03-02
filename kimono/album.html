@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作例アルバム | AI着物スタジオ</title>
+  <meta name="description" content="AI着物スタジオの作例アルバム。AI技術で生成した着物モデル画像をご覧ください。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* グラデーションテキスト */
+    .gradient-text {
+      background: linear-gradient(135deg, #f43f5e, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* メインビューア */
+    .viewer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      padding: 20px;
+    }
+
+    .frame {
+      position: relative;
+      max-width: 1000px;
+      width: 100%;
+      height: 72vh;
+      background: linear-gradient(180deg, #1a1a2e, #16213e);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    }
+
+    .frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      opacity: 0;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .frame img.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .frame img.hidden {
+      transform: translateY(10px);
+    }
+
+    /* ナビボタン */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .nav-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .nav-btn.prev {
+      left: 16px;
+    }
+
+    .nav-btn.next {
+      right: 16px;
+    }
+
+    /* ボトムバー */
+    .bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.6));
+    }
+
+    .counter {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+
+    /* サムネイル */
+    .thumbs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+
+    .thumbs::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .thumbs::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 99px;
+    }
+
+    .thumbs img {
+      height: 52px;
+      width: 52px;
+      border-radius: 10px;
+      object-fit: cover;
+      opacity: 0.5;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .thumbs img:hover {
+      opacity: 0.8;
+    }
+
+    .thumbs img.active {
+      opacity: 1;
+      border-color: #f43f5e;
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.4);
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 640px) {
+      .frame {
+        height: 65vh;
+        border-radius: 16px;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+      }
+
+      .thumbs img {
+        height: 40px;
+        width: 40px;
+      }
+    }
+
+    /* グリッドビュー */
+    .grid-card {
+      transition: transform 0.35s cubic-bezier(.22, .61, .36, 1), box-shadow 0.35s ease;
+      cursor: pointer;
+    }
+
+    .grid-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .grid-card img {
+      transition: transform 0.4s ease;
+    }
+
+    .grid-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ビュー切り替え */
+    .view-btn {
+      transition: all 0.3s ease;
+    }
+
+    .view-btn.active {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(244, 63, 94, 0.3);
+    }
+
+    .view-content {
+      display: none;
+    }
+
+    .view-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-rose-50 text-neutral-900">
+
+  <!-- DARUMA-AD TOP BAR -->
+  <div class="bg-neutral-900 text-white/80 text-xs py-2 px-4 flex justify-between items-center">
+    <a href="../index.html" class="flex items-center gap-2 hover:text-white transition no-underline text-white/80">
+      <img src="../images/daruma-logo2.png" alt="daruma-ad" style="height:20px;">
+      <span>daruma-ad トップへ</span>
+    </a>
+    <div class="hidden md:flex gap-3">
+      <a href="../index.html#services" class="hover:text-white transition no-underline text-white/60">サービス</a>
+      <a href="../works.html" class="hover:text-white transition no-underline text-white/60">制作事例</a>
+      <a href="../apps.html" class="hover:text-white transition no-underline text-white/60">アプリミュージアム</a>
+      <a href="../index.html#contact" class="hover:text-white transition no-underline text-white/60">お問い合わせ</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header
+    class="sticky top-0 z-50 bg-white/70 backdrop-blur border-b border-black/5 p-4 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-2 cursor-pointer no-underline text-neutral-900">
+      <div class="bg-rose-500 text-white font-bold p-2 rounded text-center">AI</div>
+      <span class="font-semibold">AI着物スタジオ</span>
+    </a>
+    <nav class="hidden md:flex gap-4 text-sm">
+      <a href="index.html" class="hover:opacity-80">ホーム</a>
+      <a href="index.html#features" class="hover:opacity-80">特長</a>
+      <a href="album.html" class="text-rose-500 font-semibold">作例</a>
+      <a href="videos.html" class="hover:opacity-80">動画</a>
+      <a href="apps.html" class="hover:opacity-80">アプリ</a>
+      <a href="index.html#contact" class="hover:opacity-80">お問い合わせ</a>
+    </nav>
+    <a href="index.html#contact" class="hover:opacity-80">
+      <button class="bg-rose-500 text-white px-4 py-2 rounded-2xl">無料相談</button>
+    </a>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 pt-12 pb-6 text-center">
+      <div
+        class="inline-flex items-center gap-2 bg-white/80 backdrop-blur rounded-full px-4 py-1.5 text-xs font-medium shadow-sm mb-4">
+        <span class="inline-block w-2 h-2 bg-rose-500 rounded-full"></span>
+        Portfolio Album
+      </div>
+      <h1 class="text-4xl md:text-5xl font-black leading-tight">
+        <span class="gradient-text">作例アルバム</span>
+      </h1>
+      <p class="mt-3 text-neutral-600 max-w-lg mx-auto text-sm">
+        AI着物スタジオで制作したモデル画像をご覧ください。生地の質感や自然な着付け表現をお確かめいただけます。
+      </p>
+    </div>
+    <div
+      class="absolute -top-20 -left-20 w-72 h-72 bg-gradient-to-br from-rose-200/40 to-fuchsia-200/30 rounded-full blur-3xl pointer-events-none">
+    </div>
+  </section>
+
+  <!-- VIEW TOGGLE -->
+  <section class="mx-auto max-w-6xl px-4 pb-4">
+    <div class="flex justify-center gap-3 mb-6">
+      <button class="view-btn active px-5 py-2.5 rounded-full font-bold text-sm border border-neutral-200"
+        onclick="switchView('slideshow')">
+        🖼 スライドショー
+      </button>
+      <button class="view-btn px-5 py-2.5 rounded-full font-bold text-sm border border-neutral-200 bg-white"
+        onclick="switchView('grid')">
+        📐 グリッド一覧
+      </button>
+    </div>
+  </section>
+
+  <!-- VIEW 1: スライドショー -->
+  <section id="view-slideshow" class="view-content active mx-auto max-w-6xl px-4 pb-16">
+    <div class="viewer">
+      <div class="frame" id="frame">
+        <img id="photo" class="hidden" src="" alt="photo" draggable="false">
+        <button class="nav-btn prev" id="prev" aria-label="前へ">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button class="nav-btn next" id="next" aria-label="次へ">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        <div class="bar">
+          <div class="counter" id="counter">0 / 0</div>
+          <div class="thumbs" id="thumbs" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 2: グリッド一覧 -->
+  <section id="view-grid" class="view-content mx-auto max-w-6xl px-4 pb-16">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="gridContainer">
+      <!-- JS で生成 -->
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-black/5 py-6 text-center text-sm text-neutral-600">
+    <p>© <span id="year"></span>　AI着物スタジオ by daruma-ad All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 画像リスト
+    const images = [
+      'images/hr251.jpg',
+      'images/hr257.jpg',
+      'images/hr256.jpg',
+      'images/hr235a.png',
+      'images/hr251f.png',
+      'images/hr260.png'
+    ];
+
+    // スライドショー関連
+    const photo = document.getElementById('photo');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const counter = document.getElementById('counter');
+    const thumbsEl = document.getElementById('thumbs');
+    const frame = document.getElementById('frame');
+    let index = 0;
+
+    // プリロード
+    const preloaded = [];
+    images.forEach(src => { const i = new Image(); i.src = src; preloaded.push(i); });
+
+    function updateCounter() {
+      counter.textContent = `${index + 1} / ${images.length}`;
+    }
+
+    function showImage(i) {
+      if (!images.length) return;
+      index = (i + images.length) % images.length;
+      photo.classList.remove('visible');
+      photo.classList.add('hidden');
+      setTimeout(() => {
+        photo.src = images[index];
+        photo.alt = `作例 ${index + 1}`;
+        if (preloaded[index] && preloaded[index].complete) {
+          requestAnimationFrame(() => photo.classList.add('visible'));
+        } else {
+          photo.onload = () => requestAnimationFrame(() => photo.classList.add('visible'));
+        }
+      }, 80);
+      thumbsEl.querySelectorAll('img').forEach((t, idx) => t.classList.toggle('active', idx === index));
+      updateCounter();
+    }
+
+    function next() { showImage(index + 1); }
+    function prev() { showImage(index - 1); }
+
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === ' ') { e.preventDefault(); next(); }
+    });
+
+    function buildThumbs() {
+      thumbsEl.innerHTML = '';
+      images.forEach((src, idx) => {
+        const t = document.createElement('img');
+        t.src = src;
+        t.alt = `サムネイル ${idx + 1}`;
+        t.addEventListener('click', () => showImage(idx));
+        thumbsEl.appendChild(t);
+      });
+    }
+
+    // タッチスワイプ
+    let touchStartX = null;
+    frame.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; });
+    frame.addEventListener('touchend', (e) => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+      touchStartX = null;
+    });
+
+    // ダブルクリックズーム
+    let zoomed = false;
+    frame.addEventListener('dblclick', () => {
+      zoomed = !zoomed;
+      photo.style.transform = zoomed ? 'scale(1.6)' : 'scale(1)';
+      photo.style.transition = 'transform .3s ease';
+    });
+
+    // グリッド生成
+    function buildGrid() {
+      const container = document.getElementById('gridContainer');
+      container.innerHTML = '';
+      images.forEach((src, idx) => {
+        const card = document.createElement('div');
+        card.className = 'grid-card bg-white rounded-2xl shadow-md overflow-hidden';
+        card.innerHTML = `
+          <div class="overflow-hidden aspect-[3/4]">
+            <img src="${src}" alt="作例 ${idx + 1}" class="w-full h-full object-cover">
+          </div>
+          <div class="p-3">
+            <p class="text-sm font-medium text-neutral-700">作例 ${idx + 1}</p>
+          </div>
+        `;
+        card.addEventListener('click', () => {
+          switchView('slideshow');
+          showImage(idx);
+        });
+        container.appendChild(card);
+      });
+    }
+
+    // ビュー切り替え
+    function switchView(view) {
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('bg-white');
+      });
+      event.currentTarget
+        ? (event.currentTarget.classList.add('active'), event.currentTarget.classList.remove('bg-white'))
+        : document.querySelector('.view-btn').classList.add('active');
+
+      document.querySelectorAll('.view-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('view-' + view).classList.add('active');
+    }
+
+    // 初期化
+    buildThumbs();
+    buildGrid();
+    if (images.length) showImage(0);
+    else { counter.textContent = '0 / 0'; photo.alt = '画像がありません'; }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動画ギャラリー | AI着物スタジオ</title>
+  <meta name="description" content="AI着物スタジオの動画ギャラリー。着物生成プロセスと、インバウンド向け大阪・京都観光案内動画。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* タブ切り替え */
+    .tab-btn {
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeSlide 0.5s ease;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ビデオカードのホバー */
+    .video-card {
+      transition: transform 0.35s cubic-bezier(.22, .61, .36, 1), box-shadow 0.35s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+    }
+
+    /* サムネイルオーバーレイ */
+    .thumb-overlay {
+      background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-card:hover .thumb-overlay {
+      opacity: 1;
+    }
+
+    /* 再生ボタンアニメーション */
+    .play-btn {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .video-card:hover .play-btn {
+      transform: scale(1.15);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    /* モーダル */
+    .modal {
+      display: none;
+    }
+
+    .modal.active {
+      display: flex;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* グラデーションテキスト */
+    .gradient-text {
+      background: linear-gradient(135deg, #f43f5e, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+
+<body class="bg-rose-50 text-neutral-900">
+
+  <!-- DARUMA-AD TOP BAR -->
+  <div class="bg-neutral-900 text-white/80 text-xs py-2 px-4 flex justify-between items-center">
+    <a href="../index.html" class="flex items-center gap-2 hover:text-white transition no-underline text-white/80">
+      <img src="../images/daruma-logo2.png" alt="daruma-ad" style="height:20px;">
+      <span>daruma-ad トップへ</span>
+    </a>
+    <div class="hidden md:flex gap-3">
+      <a href="../index.html#services" class="hover:text-white transition no-underline text-white/60">サービス</a>
+      <a href="../works.html" class="hover:text-white transition no-underline text-white/60">制作事例</a>
+      <a href="../apps.html" class="hover:text-white transition no-underline text-white/60">アプリミュージアム</a>
+      <a href="../index.html#contact" class="hover:text-white transition no-underline text-white/60">お問い合わせ</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header
+    class="sticky top-0 z-50 bg-white/70 backdrop-blur border-b border-black/5 p-4 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-2 cursor-pointer no-underline text-neutral-900">
+      <div class="bg-rose-500 text-white font-bold p-2 rounded text-center">AI</div>
+      <span class="font-semibold">AI着物スタジオ</span>
+    </a>
+    <nav class="hidden md:flex gap-4 text-sm">
+      <a href="index.html" class="hover:opacity-80">ホーム</a>
+      <a href="index.html#features" class="hover:opacity-80">特長</a>
+      <a href="album.html" class="hover:opacity-80">作例</a>
+      <a href="videos.html" class="text-rose-500 font-semibold">動画</a>
+      <a href="apps.html" class="hover:opacity-80">アプリ</a>
+      <a href="index.html#contact" class="hover:opacity-80">お問い合わせ</a>
+    </nav>
+    <a href="index.html#contact" class="hover:opacity-80">
+      <button class="bg-rose-500 text-white px-4 py-2 rounded-2xl">無料相談</button>
+    </a>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-20 text-center">
+      <div
+        class="inline-flex items-center gap-2 bg-white/80 backdrop-blur rounded-full px-4 py-1.5 text-xs font-medium shadow-sm mb-6">
+        <span class="inline-block w-2 h-2 bg-rose-500 rounded-full"></span>
+        Video Gallery
+      </div>
+      <h1 class="text-4xl md:text-5xl font-black leading-tight">
+        <span class="gradient-text">動画ギャラリー</span>
+      </h1>
+      <p class="mt-4 text-neutral-600 max-w-xl mx-auto">
+        AI着物スタジオの制作プロセスと、日本の魅力を伝えるインバウンド向け観光案内動画をご覧いただけます。
+      </p>
+    </div>
+    <div
+      class="absolute -top-20 -right-20 w-80 h-80 bg-gradient-to-br from-rose-200/40 to-fuchsia-200/30 rounded-full blur-3xl pointer-events-none">
+    </div>
+  </section>
+
+  <!-- TAB NAVIGATION -->
+  <section class="mx-auto max-w-6xl px-4 pb-20">
+    <div class="flex justify-center gap-3 mb-10">
+      <button class="tab-btn active px-6 py-3 rounded-full font-bold text-sm border border-neutral-200"
+        onclick="switchTab('kimono')">
+        👘 着物スタジオ
+      </button>
+      <button class="tab-btn px-6 py-3 rounded-full font-bold text-sm border border-neutral-200 bg-white"
+        onclick="switchTab('tourism')">
+        🗾 観光案内 / Tourism
+      </button>
+    </div>
+
+    <!-- TAB 1: 着物スタジオ動画 -->
+    <div id="tab-kimono" class="tab-content active">
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <!-- 動画1 -->
+        <div class="video-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer"
+          onclick="openModal('https://www.youtube.com/embed/waQ6EvI9YKY')">
+          <div class="relative">
+            <img src="https://img.youtube.com/vi/waQ6EvI9YKY/hqdefault.jpg" alt="AI着物生成プロセス 1"
+              class="w-full aspect-video object-cover">
+            <div class="thumb-overlay absolute inset-0"></div>
+            <div
+              class="play-btn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-rose-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold">AI着物生成 デモ 1</h3>
+            <p class="text-sm text-neutral-500 mt-1">生地データからAI着付けモデルを生成するプロセス</p>
+          </div>
+        </div>
+
+        <!-- 動画2 -->
+        <div class="video-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer"
+          onclick="openModal('https://www.youtube.com/embed/XnafMoN3Sf4')">
+          <div class="relative">
+            <img src="https://img.youtube.com/vi/XnafMoN3Sf4/hqdefault.jpg" alt="AI着物生成プロセス 2"
+              class="w-full aspect-video object-cover">
+            <div class="thumb-overlay absolute inset-0"></div>
+            <div
+              class="play-btn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-rose-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold">AI着物生成 デモ 2</h3>
+            <p class="text-sm text-neutral-500 mt-1">テクスチャ転写と自然なドレープ表現</p>
+          </div>
+        </div>
+
+        <!-- 動画3 -->
+        <div class="video-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer"
+          onclick="openModal('https://www.youtube.com/embed/pvcoHstTDc8')">
+          <div class="relative">
+            <img src="https://img.youtube.com/vi/pvcoHstTDc8/hqdefault.jpg" alt="AI着物生成プロセス 3"
+              class="w-full aspect-video object-cover">
+            <div class="thumb-overlay absolute inset-0"></div>
+            <div
+              class="play-btn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-rose-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold">AI着物生成 デモ 3</h3>
+            <p class="text-sm text-neutral-500 mt-1">ポージングと着物の物理シミュレーション</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 2: 観光案内動画 (Shorts / 縦長) -->
+    <div id="tab-tourism" class="tab-content">
+      <div class="text-center mb-8">
+        <p class="text-neutral-600 text-sm">🌏 Inbound Tourism Guide — Discover Japan!</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+
+        <!-- 大阪観光案内 -->
+        <div class="video-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer"
+          onclick="openModal('https://www.youtube.com/embed/GDgcQfkG9PQ', true)">
+          <div class="relative">
+            <img src="https://img.youtube.com/vi/GDgcQfkG9PQ/hqdefault.jpg" alt="大阪観光案内"
+              class="w-full aspect-[9/16] object-cover">
+            <div class="thumb-overlay absolute inset-0"></div>
+            <div
+              class="play-btn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-rose-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <!-- Shorts バッジ -->
+            <div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              Shorts
+            </div>
+            <!-- 地名バッジ -->
+            <div
+              class="absolute bottom-3 left-3 bg-black/60 backdrop-blur text-white text-sm font-bold px-3 py-1.5 rounded-lg">
+              🏯 大阪 / Osaka
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">大阪観光案内</h3>
+            <p class="text-sm text-neutral-500 mt-1">Osaka Travel Guide — 食い倒れの街大阪の魅力を紹介</p>
+          </div>
+        </div>
+
+        <!-- 京都観光案内 -->
+        <div class="video-card bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer"
+          onclick="openModal('https://www.youtube.com/embed/SUhGM_uHMqg', true)">
+          <div class="relative">
+            <img src="https://img.youtube.com/vi/SUhGM_uHMqg/hqdefault.jpg" alt="京都観光案内"
+              class="w-full aspect-[9/16] object-cover">
+            <div class="thumb-overlay absolute inset-0"></div>
+            <div
+              class="play-btn absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg">
+              <svg class="w-6 h-6 text-rose-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow">
+              Shorts
+            </div>
+            <div
+              class="absolute bottom-3 left-3 bg-black/60 backdrop-blur text-white text-sm font-bold px-3 py-1.5 rounded-lg">
+              ⛩ 京都 / Kyoto
+            </div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">京都観光案内</h3>
+            <p class="text-sm text-neutral-500 mt-1">Kyoto Travel Guide — 千年の都・京都の伝統と美</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- モーダル（動画再生） -->
+  <div id="videoModal" class="modal fixed inset-0 bg-black/85 backdrop-blur-sm items-center justify-center z-50"
+    onclick="closeModal(event)">
+    <div id="modalContainer" class="relative w-full max-w-4xl mx-4">
+      <button onclick="closeModal()"
+        class="absolute -top-12 right-0 text-white/80 hover:text-white text-3xl font-bold transition">&times;</button>
+      <iframe id="modalVideo" class="w-full rounded-2xl shadow-2xl" style="aspect-ratio: 16/9;" src="" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- 動画制作のご相談 CTA -->
+  <section class="bg-rose-50 py-16 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-black text-neutral-900 mb-4">動画制作のご相談</h2>
+      <p class="text-neutral-600 text-lg leading-relaxed mb-8">
+        着物業界に特化したプロモーション動画・SNS動画や着物姿を活用した観光地PR動画を制作します。<br>
+        お気軽にお問い合わせください。
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="index.html#contact"
+          class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+          📩 お問い合わせ
+        </a>
+        <a href="https://lin.ee/zPFbRwW" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 bg-[#06C755] text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+          💬 LINEで相談
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-black/5 py-6 text-center text-sm text-neutral-600">
+    <p>© <span id="year"></span>　AI着物スタジオ by daruma-ad All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // 年表示
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // タブ切り替え
+    function switchTab(tab) {
+      // ボタンのアクティブ状態
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('bg-white');
+      });
+      event.currentTarget.classList.add('active');
+      event.currentTarget.classList.remove('bg-white');
+
+      // コンテンツの表示切り替え
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    // モーダルを開く
+    function openModal(src, isShorts = false) {
+      const modal = document.getElementById('videoModal');
+      const container = document.getElementById('modalContainer');
+      const video = document.getElementById('modalVideo');
+
+      if (isShorts) {
+        container.style.maxWidth = '400px';
+        video.style.aspectRatio = '9/16';
+      } else {
+        container.style.maxWidth = '56rem'; // max-w-4xl
+        video.style.aspectRatio = '16/9';
+      }
+
+      modal.classList.add('active');
+      video.src = src + '?autoplay=1';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // モーダルを閉じる
+    function closeModal(e) {
+      if (e && e.target !== e.currentTarget && !e.target.closest('button')) return;
+      const modal = document.getElementById('videoModal');
+      const video = document.getElementById('modalVideo');
+      modal.classList.remove('active');
+      video.src = '';
+      document.body.style.overflow = '';
+    }
+
+    // ESCキーで閉じる
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+
+</html>

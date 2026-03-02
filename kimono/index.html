@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI着物スタジオ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-rose-50 text-neutral-900">
+
+  <!-- DARUMA-AD TOP BAR -->
+  <div class="bg-neutral-900 text-white/80 text-xs py-2 px-4 flex justify-between items-center">
+    <a href="../index.html" class="flex items-center gap-2 hover:text-white transition no-underline text-white/80">
+      <img src="../images/daruma-logo2.png" alt="daruma-ad" style="height:20px;">
+      <span>daruma-ad トップへ</span>
+    </a>
+    <div class="hidden md:flex gap-3">
+      <a href="../index.html#services" class="hover:text-white transition no-underline text-white/60">サービス</a>
+      <a href="../works.html" class="hover:text-white transition no-underline text-white/60">制作事例</a>
+      <a href="../apps.html" class="hover:text-white transition no-underline text-white/60">アプリミュージアム</a>
+      <a href="../index.html#contact" class="hover:text-white transition no-underline text-white/60">お問い合わせ</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header
+    class="sticky top-0 z-40 bg-white/70 backdrop-blur border-b border-black/5 p-4 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-2 cursor-pointer no-underline text-neutral-900">
+      <div class="bg-rose-500 text-white font-bold p-2 rounded text-center">
+        AI
+      </div>
+      <span class="font-semibold">AI着物スタジオ</span>
+    </a>
+    <nav class="hidden md:flex gap-4 text-sm">
+      <a href="#features" class="hover:opacity-80">特長</a>
+      <a href="#flow" class="hover:opacity-80">ご利用の流れ</a>
+      <a href="#gallery" class="hover:opacity-80">作例</a>
+      <a href="videos.html" class="hover:opacity-80">動画</a>
+      <a href="apps.html" class="hover:opacity-80">アプリ</a>
+      <a href="#pricing" class="hover:opacity-80">料金</a>
+      <a href="#faq" class="hover:opacity-80">よくある質問</a>
+      <a href="#contact" class="hover:opacity-80">お問い合わせ</a>
+    </nav>
+    <a href="#contact" class="hover:opacity-80"><button
+        class="bg-rose-500 text-white px-4 py-2 rounded-2xl">無料相談</button></a>
+  </header>
+
+  <!-- HERO -->
+  <section class="mx-auto max-w-6xl px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <div class="inline-flex items-center gap-1 bg-white/60 backdrop-blur rounded-full px-3 py-1 text-xs font-medium">
+        新サービス β 受付中
+      </div>
+      <h1 class="mt-4 text-4xl md:text-6xl font-extrabold">
+        あなたの生地で<br>
+        <span class="bg-gradient-to-r from-rose-600 to-fuchsia-600 bg-clip-text text-transparent">
+          AI人物に着付け
+        </span>
+      </h1>
+      <p class="mt-4 text-neutral-700 text-lg leading-relaxed">
+        モデル不要・撮影不要・着付け不要・髪セット不要・メイク不要　着物生地がモデル画像に変身する最新のAIテクノロジー<br>
+        お好きな着物生地データをアップロードするだけ。AIで生成した人物モデルに美しく着付けた画像をお届けします。EC掲載・広告・デザイン検討に最適です。
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
+        <a href="videos.html" class="hover:opacity-80"><button
+            class="bg-rose-500 text-white px-4 py-2 rounded-2xl flex items-center gap-2">動画ギャラリー</button></a>
+        <a href="album.html" class="hover:opacity-80"><button
+            class="border bg-white px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-neutral-50">作例アルバム</button></a>
+        <!-- NEW APP LINK -->
+        <a href="apps.html" class="hover:opacity-80"><button
+            class="border bg-white px-4 py-2 rounded-2xl flex items-center gap-2 hover:bg-neutral-50 text-rose-600 font-bold">アプリを試す</button></a>
+      </div>
+      <p class="mt-2 text-xs text-neutral-500">商用利用可 / クレジット不要 / 著作権に配慮</p>
+    </div>
+
+    <!-- Before/After Slider -->
+    <div class="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-sm bg-neutral-100">
+      <img src="images/before2.jpg?q=80&w=1600&auto=format&fit=crop"
+        class="absolute inset-0 w-full h-full object-cover">
+      <div id="before-container" class="absolute inset-0 overflow-hidden" style="width:50%">
+        <img src="images/after2.jpg?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover">
+      </div>
+      <input id="slider" type="range" min="0" max="100" value="50"
+        class="absolute bottom-3 left-1/2 -translate-x-1/2 w-2/3">
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="mx-auto max-w-6xl px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">選ばれる理由</h2>
+    <p class="mt-3 text-center text-neutral-700">生地の質感を活かす最適化と、自然な着付け表現に特化した独自パイプライン。</p>
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <h3 class="text-xl font-bold flex items-center gap-2">🎨 生地表現の再現性</h3>
+        <p class="text-neutral-700 mt-2">光沢・織り・柄の歪み補正で実物に近いテクスチャ転写。</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4">
+        <h3 class="text-xl font-bold flex items-center gap-2">📷 自然なポージング</h3>
+        <p class="text-neutral-700 mt-2">モデルの体型・動きに合わせてシワやドレープを物理的に推定。</p>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4">
+        <h3 class="text-xl font-bold flex items-center gap-2">🛡 権利・安全対策</h3>
+        <p class="text-neutral-700 mt-2">生成ガイドラインとフィルタで不適切コンテンツをブロック。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section id="flow" class="bg-neutral-50 py-16">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center">ご利用の流れ</h2>
+      <div class="mt-10 grid md:grid-cols-4 gap-6">
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-bold text-lg">1 生地を登録</h3>
+          <p class="text-neutral-700 mt-2">JPG/PNG/PSDなど。</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-bold text-lg">2 モデル条件を選択</h3>
+          <p class="text-neutral-700 mt-2">年齢層・性別・髪型など</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-bold text-lg">3 プレビュー確認</h3>
+          <p class="text-neutral-700 mt-2">24〜72時間で初稿。リテイクは1回無料</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-bold text-lg">4 納品・商用利用</h3>
+          <p class="text-neutral-700 mt-2">PNG/JPG。オプションでPSD/透過も可。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="py-16">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">作例ギャラリー</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <img src="images/hr257.jpg" data-full="images/hr257.jpg"
+          class="gallery-thumb w-full aspect-[4/5] object-cover rounded-2xl shadow-sm cursor-pointer" alt="作例1">
+        <img src="images/hr251.jpg" data-full="images/hr251.jpg"
+          class="gallery-thumb w-full aspect-[4/5] object-cover rounded-2xl shadow-sm cursor-pointer" alt="作例2">
+        <img src="images/hr235a.png" data-full="images/hr235a.png"
+          class="gallery-thumb w-full aspect-[4/5] object-cover rounded-2xl shadow-sm cursor-pointer" alt="作例3">
+      </div>
+    </div>
+  </section>
+
+  <!-- モーダル（全画面プレビュー） -->
+  <div id="lightbox" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl font-bold px-3 py-1 hover:opacity-80">
+      ✕
+    </button>
+    <img id="lightbox-img" src="" alt="プレビュー"
+      class="max-w-[90%] max-h-[90%] rounded-2xl shadow-2xl transition duration-300">
+  </div>
+
+  <script>
+    const thumbs = document.querySelectorAll('.gallery-thumb');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = document.getElementById('lightbox-close');
+
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const full = thumb.dataset.full || thumb.src;
+        lightboxImg.src = full;
+        lightbox.classList.remove('hidden');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.add('hidden');
+      lightboxImg.src = "";
+    });
+
+    // ESCキーでも閉じられるように
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape") {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = "";
+      }
+    });
+  </script>
+
+  <!-- PRICING -->
+  <section id="pricing" class="mx-auto max-w-6xl px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">料金プランの一例</h2>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+
+      <!-- Lite -->
+      <div class="bg-white p-6 rounded-2xl shadow flex flex-col">
+        <h3 class="text-xl font-bold mb-2">Lite（3枚の画像生成）</h3>
+        <p class="text-4xl font-extrabold">
+          <span class="line-through text-gray-400">¥3000</span><br>
+          <span class="text-red-500 ml-2">今だけ2000円</span>
+        </p>
+        <p class="mt-1 text-neutral-600">お試しに最適 3カット</p>
+        <ul class="mt-4 text-sm space-y-1">
+          <li>1商品 3画像 背景白１枚 背景あり２枚</li>
+          <li>1回リテイク可能</li>
+          <li>商用利用可</li>
+        </ul>
+      </div>
+
+      <!-- Standard -->
+      <div class="bg-white p-6 rounded-2xl shadow flex flex-col ring-2 ring-rose-500">
+        <h3 class="text-xl font-bold mb-2">Standard（6枚の画像生成）</h3>
+        <p class="text-4xl font-extrabold">
+          <span class="line-through text-gray-400">¥6000</span><br>
+          <span class="text-red-500 ml-2">今だけ3000円</span>
+        </p>
+        <p class="mt-1 text-neutral-600">人気のスタンダードプラン 6カット</p>
+        <ul class="mt-4 text-sm space-y-1">
+          <li>2商品合計6画像（1商品につき3画像 背景白１枚 背景あり２枚） </li>
+          <li>1回リテイク可能</li>
+          <li>優先対応</li>
+        </ul>
+      </div>
+
+      <!-- Pro -->
+      <div class="bg-white p-6 rounded-2xl shadow flex flex-col">
+        <h3 class="text-xl font-bold mb-2">Pro（9枚の画像生成）</h3>
+        <p class="text-4xl font-extrabold">
+          <span class="line-through text-gray-400">¥9000</span><br>
+          <span class="text-red-500 ml-2">今だけ4000円</span>
+        </p>
+        <p class="mt-1 text-neutral-600">大量制作 9カット</p>
+        <ul class="mt-4 text-sm space-y-1">
+          <li>3商品合計9画像（1商品につき3画像 背景白１枚 背景あり２枚） </li>
+          <li>1回リテイク可能</li>
+          <li>専任ディレクション</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="bg-neutral-50 py-16">
+    <div class="mx-auto max-w-4xl px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center">よくある質問</h2>
+      <div class="mt-8 space-y-4">
+        <details class="bg-white p-4 rounded-2xl shadow">
+          <summary class="font-semibold cursor-pointer">納期はどのくらいですか？</summary>
+          <p class="mt-2 text-neutral-700">作成枚数にもよりますが通常24〜72時間で初稿をご提出します。リテイクは1回まで無料です。</p>
+        </details>
+        <details class="bg-white p-4 rounded-2xl shadow">
+          <summary class="font-semibold cursor-pointer">商用利用は可能ですか？</summary>
+          <p class="mt-2 text-neutral-700">はい。商用利用可能です。クレジット表記も不要です。</p>
+        </details>
+        <details class="bg-white p-4 rounded-2xl shadow">
+          <summary class="font-semibold cursor-pointer">どのファイル形式が使えますか？</summary>
+          <p class="mt-2 text-neutral-700">JPG/PNG/PSD に対応しています。</p>
+        </details>
+        <details class="bg-white p-4 rounded-2xl shadow">
+          <summary class="font-semibold cursor-pointer">10枚以上の発注もできますか？</summary>
+          <p class="mt-2 text-neutral-700">10枚以上の大量発注も可能です。貴社のニーズ合わせたパッケージをご提案させていただきます。</p>
+        </details>
+        <details class="bg-white p-4 rounded-2xl shadow">
+          <summary class="font-semibold cursor-pointer">背景色が白以外の画像も出来ますか？</summary>
+          <p class="mt-2 text-neutral-700">背景色白以外もできます。貴社のニーズ合わせたパッケージをご提案させていただきます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="mx-auto max-w-4xl px-4 py-16">
+    <h2 class="text-3xl md:text-4xl font-bold text-center">お問い合わせ・お見積りはこちらから</h2>
+
+    <!-- Formspreeフォーム -->
+    <form action="https://formspree.io/f/mvgbblvv" method="POST" class="mt-8 grid gap-4">
+      <input type="text" name="name" placeholder="お名前" class="p-3 rounded-lg border border-neutral-300 w-full" required>
+      <input type="email" name="email" placeholder="メールアドレス" class="p-3 rounded-lg border border-neutral-300 w-full"
+        required>
+      <textarea name="message" placeholder="お問い合わせ内容" class="p-3 rounded-lg border border-neutral-300 w-full"
+        required></textarea>
+      <button type="submit" class="bg-rose-500 text-white py-3 rounded-2xl">送信する</button>
+    </form>
+
+    <!-- LINE QRコード -->
+    <div class="mt-12 text-center">
+      <p class="text-lg font-semibold mb-4">LINEでもお問い合わせいただけます</p>
+      <img src="images/line-qr.png" alt="LINE QRコード" class="mx-auto w-48 h-48">
+      <p class="mt-2 text-sm text-neutral-600">QRコードを読み取って友だち追加してください</p>
+      <!-- LINEボタン -->
+      <a href="https://lin.ee/zPFbRwW" target="_blank"
+        class="inline-block mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-2xl shadow">
+        LINEでお問い合わせ
+      </a>
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="border-t border-black/5 py-8 text-center text-sm text-neutral-600">
+    <div class="mb-4">
+      <a href="../index.html"
+        class="inline-flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition no-underline">
+        <img src="../images/daruma-logo2.png" alt="daruma-ad" style="height:24px;">
+        <span class="font-semibold">daruma-ad トップへ戻る</span>
+      </a>
+    </div>
+    <p>© <span id="year"></span>　AI着物スタジオ by daruma-ad All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Before/After スライダー
+    const slider = document.getElementById('slider');
+    const beforeContainer = document.getElementById('before-container');
+    slider.addEventListener('input', e => {
+      beforeContainer.style.width = e.target.value + '%';
+    });
+
+    // 年表示
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+
+</html>
